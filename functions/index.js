@@ -42,6 +42,7 @@ exports.translate = functions.https.onRequest((req, response) => {
     if(bodyRes && bodyRes[0]){
       resText = bodyRes[0].translations[0].text;
     }
+    response.set('Access-Control-Allow-Origin', '*');
     response.send(resText || err);
   })
 })
