@@ -27,17 +27,16 @@ const defaultOptions = {
 
 
 exports.translate = functions.https.onRequest((req, response) => {
-  console.log("Translate request: ", req);
-  console.log("body: ", req.body);
   const languages = [req.query.outLang || 'en'];
   const options = {...defaultOptions};
   options.qs['to'] = languages;
   options.body[0] = {text: req.body}
-  console.log("Translating to language: ", languages)
 
   request(options, (err, res, bodyRes)=>{
-    console.log("Response from Translate API: ", res || err);
-    console.log("response body: ", bodyRes)
+    if (err) {
+      console.err("Error: ", err)
+    }
+
     let resText;
     if(bodyRes && bodyRes[0]){
       resText = bodyRes[0].translations[0].text;
